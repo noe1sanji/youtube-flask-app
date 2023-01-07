@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <div class="search-form">
+    <form action="{{ url_for('api_results') }}" method="post">
+        <input type="text" name="search" placeholder="Buscar" required>
+        <input type="submit" value="Buscar">
+    </form>
+</div> -->
+<div class="container-home">
+    {% for video in videos %}
+    <a href="https://www.youtube.com/watch?v={{ video['id']['videoId'] }}" target="_blank">
+        <div class="card">
+            <div class="card-img"><img src="{{ video['snippet']['thumbnails']['high']['url'] }}" alt=""></div>
+            <div class="card-title">{{ video["snippet"]["title"] | safe }}</div>
+            <div class="card-channel">{{ video["snippet"]["channelTitle"] }}</div>
+            <div class="card-description">
+                <p>{{ video["snippet"]["description"] }}</p>
+            </div>
+            <div class="card-published">{{ video["snippet"]["publishedAt"] | formatdatetime }}</div>
+        </div>
+    </a>
+    <br>
+    {% endfor %}
+    <div class="pagination">
+        {% if prevPageToken %}
+        <div class="prev-button">
+            <form action="{{ url_for('page', token=prevPageToken) }}" method="post">
+                <input type="submit" value="Regresar">
+            </form>
+        </div>
+        {% endif %}
+        {% if nextPageToken %}
+        <div class="next-button">
+            <form action="{{ url_for('page', token=nextPageToken) }}" method="post">
+                <input type="submit" value="Siguiente">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <div class="go-up">
+        <a href="#navbar">
+            <button>
+                <i class="gg-arrow-up"></i>
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock %}
