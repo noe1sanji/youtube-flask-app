@@ -9,7 +9,7 @@
 </div> -->
 <div class="container-home">
     {% for video in videos %}
-    <a href="https://www.youtube.com/watch?v={{ video['id']['videoId'] }}" target="_blank">
+    <a href="https://www.youtube.com/watch?v={{ video['id'] }}" target="_blank">
         <div class="card">
             <div class="card-img"><img src="{{ video['snippet']['thumbnails']['high']['url'] }}" alt=""></div>
             <div class="card-title">{{ video["snippet"]["title"] | safe }}</div>
