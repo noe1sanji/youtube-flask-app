@@ -144,12 +144,16 @@ html, body, .container {
     height: 60px;
     width: 60px;
     right: 10px;
-    bottom: 10px;
+    bottom: 100px;
     position: fixed;
     background-color: #ff1111;
     color: #fff;
     text-align: center;
     font-size: 20px;
+}
+
+.go-up button:hover {
+    background-color: #ff3333;
 }
 
 .go-up i {
