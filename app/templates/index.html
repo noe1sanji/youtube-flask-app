@@ -11,15 +11,18 @@
                 <span>
                     {{ video["snippet"]["channelTitle"] }}
                 </span>
-                <span> • </span>
+                <span>  •  </span>
                 <span>
                     {{ video["statistics"]["viewCount"] | viewsFormat }}
+                </span>
+                <span>  •  </span>
+                <span>
+                    {{ video["snippet"]["publishedAt"] | formatdatetime }}
                 </span>
             </div>
             <div class="card-description">
                 <p>{{ video["snippet"]["description"] }}</p>
             </div>
-            <div class="card-published">{{ video["snippet"]["publishedAt"] | formatdatetime }}</div>
         </div>
     </a>
     <br>

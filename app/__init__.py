@@ -4,6 +4,7 @@ from .search import youtube_search
 from dateutil import parser
 from .video_list import get_most_popular_videos, get_next_popular_videos
 import humanize
+import arrow
 
 
 def get_db():
@@ -93,9 +94,9 @@ def format_datetime(value, format="%d %b %Y"):
     if value is None:
         return ""
 
-    result = parser.isoparse(value)
+    result = arrow.get(value).humanize(locale=LANG)
 
-    return result.strftime(format)
+    return result
 
 
 @app.template_filter("viewsFormat")

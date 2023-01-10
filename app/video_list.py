@@ -46,7 +46,7 @@ def get_next_popular_videos(page_token):
         .list(
             part="id,snippet,contentDetails,player,statistics",
             chart="mostPopular",
-            maxResults=50,
+            maxResults=25,
             regionCode="mx",
             pageToken=page_token,
         )

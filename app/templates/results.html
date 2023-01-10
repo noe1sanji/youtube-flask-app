@@ -4,15 +4,22 @@
 <div class="container-results">
     {% for result in results %}
     <a href="https://www.youtube.com/watch?v={{ result['video_id'] }}" target="_blank">
-    <div class="card">
-    <div class="card-img"><img src="{{ result['thumbnails_url'] }}" alt=""></div>
-    <div class="card-title">{{ result["title"] | safe }}</div>
-    <div class="card-channel">{{ result["channel_title"] }}</div>
-    <div class="card-description">
-        <p>{{ result["description"] }}</p>
-    </div>
-    <div class="card-published">{{ result["published_at"] | formatdatetime }}</div>
-    </div>
+        <div class="card">
+            <div class="card-img"><img src="{{ result['thumbnails_url'] }}" alt=""></div>
+            <div class="card-title">{{ result["title"] | safe }}</div>
+            <div class="card-channel">
+                <span>
+                    {{ result["channel_title"] }}
+                </span>
+                <span> • </span>
+                <span>
+                    {{ result["published_at"] | formatdatetime }}
+                </span>
+            </div>
+            <div class="card-description">
+                <p>{{ result["description"] }}</p>
+            </div>
+        </div>
     </a>
     <br>
     {% endfor %}
