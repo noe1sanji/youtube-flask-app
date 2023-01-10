@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- <div class="search-form">
-    <form action="{{ url_for('api_results') }}" method="post">
-        <input type="text" name="search" placeholder="Buscar" required>
-        <input type="submit" value="Buscar">
-    </form>
-</div> -->
 <div class="container-home">
     {% for video in videos %}
     <a href="https://www.youtube.com/watch?v={{ video['id'] }}" target="_blank">
         <div class="card">
             <div class="card-img"><img src="{{ video['snippet']['thumbnails']['high']['url'] }}" alt=""></div>
             <div class="card-title">{{ video["snippet"]["title"] | safe }}</div>
-            <div class="card-channel">{{ video["snippet"]["channelTitle"] }}</div>
+            <div class="card-channel">
+                <span>
+                    {{ video["snippet"]["channelTitle"] }}
+                </span>
+                <span> • </span>
+                <span>
+                    {{ video["statistics"]["viewCount"] | viewsFormat }}
+                </span>
+            </div>
             <div class="card-description">
                 <p>{{ video["snippet"]["description"] }}</p>
             </div>

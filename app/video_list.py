@@ -10,7 +10,12 @@ def get_most_popular_videos():
 
     results = (
         service.videos()
-        .list(part="id,snippet", chart="mostPopular", maxResults=50, regionCode="mx")
+        .list(
+            part="id,snippet,contentDetails,player,statistics",
+            chart="mostPopular",
+            maxResults=25,
+            regionCode="mx",
+        )
         .execute()
     )
 
@@ -39,7 +44,7 @@ def get_next_popular_videos(page_token):
     results = (
         service.videos()
         .list(
-            part="id,snippet",
+            part="id,snippet,contentDetails,player,statistics",
             chart="mostPopular",
             maxResults=50,
             regionCode="mx",
