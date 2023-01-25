@@ -1,4 +1,6 @@
-html, body, .container {
+html,
+body,
+.container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 0;
     margin: 0;
@@ -68,13 +70,16 @@ html, body, .container {
     padding: 12px 16px;
 }
 
-.container-results, .container-home, .pagination {
+.container-results,
+.container-home,
+.pagination {
     margin-top: 25px;
     margin-left: 20px;
     margin-right: 20px;
 }
 
-.container-results a, .container-home a {
+.container-results a,
+.container-home a {
     text-decoration: none;
 }
 
@@ -115,7 +120,8 @@ html, body, .container {
     display: flex;
 }
 
-.prev-button, .next-button {
+.prev-button,
+.next-button {
     width: 30%;
     margin: auto;
     height: 50px;
@@ -191,7 +197,7 @@ html, body, .container {
         display: flex;
         flex-direction: column;
     }
-    
+
     .card {
         display: block;
         height: auto;
@@ -200,13 +206,16 @@ html, body, .container {
         margin-bottom: 15px;
     }
 
-    .card-img, .card-img img {
+    .card-img,
+    .card-img img {
         height: 100%;
         width: 100%;
         border-radius: 10px;
     }
 
-    .card-title, .card-channel, .card-published {
+    .card-title,
+    .card-channel,
+    .card-published {
         text-align: left;
     }
 
@@ -218,7 +227,8 @@ html, body, .container {
         display: block;
     }
 
-    .prev-button, .next-button {
+    .prev-button,
+    .next-button {
         width: 70%;
     }
 }
