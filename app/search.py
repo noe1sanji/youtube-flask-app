@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 import os
 from googleapiclient.discovery import build
-from pprint import pprint
 
 
 def youtube_search(text):
@@ -9,10 +8,58 @@ def youtube_search(text):
 
     service = build("youtube", "v3", developerKey=os.environ["DEVELOPER_KEY"])
 
-    results = service.search().list(q=text, part="id,snippet", maxResults=5, type="video").execute()
+    results = (
+        service.search()
+        .list(q=text, part="id,snippet", maxResults=25, type="video")
+        .execute()
+    )
 
-    data = [row for row in results.get('items', [])]
+    try:
+        nextPageToken = results["nextPageToken"]
+    except KeyError:
+        nextPageToken = None
+
+    try:
+        prevPageToken = results["prevPageToken"]
+    except KeyError:
+        prevPageToken = None
+
+    videos = [row for row in results.get("items", [])]
 
     service.close()
 
-    return data
+    return videos, nextPageToken, prevPageToken
+
+
+def next_youtube_search(searchText, pageToken):
+    load_dotenv()
+
+    service = build("youtube", "v3", developerKey=os.environ["DEVELOPER_KEY"])
+
+    results = (
+        service.search()
+        .list(
+            q=searchText,
+            part="id,snippet",
+            maxResults=25,
+            type="video",
+            pageToken=pageToken,
+        )
+        .execute()
+    )
+
+    try:
+        nextPageToken = results["nextPageToken"]
+    except KeyError:
+        nextPageToken = None
+
+    try:
+        prevPageToken = results["prevPageToken"]
+    except KeyError:
+        prevPageToken = None
+
+    videos = [row for row in results.get("items", [])]
+
+    service.close()
+
+    return videos, nextPageToken, prevPageToken

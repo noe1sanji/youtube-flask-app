@@ -29,11 +29,11 @@ def get_most_popular_videos():
     except KeyError:
         prevPageToken = None
 
-    data = [row for row in results.get("items", [])]
+    videos = [row for row in results.get("items", [])]
 
     service.close()
 
-    return data, nextPageToken, prevPageToken
+    return videos, nextPageToken, prevPageToken
 
 
 def get_next_popular_videos(page_token):
@@ -63,8 +63,8 @@ def get_next_popular_videos(page_token):
     except KeyError:
         prevPageToken = None
 
-    data = [row for row in results.get("items", [])]
+    videos = [row for row in results.get("items", [])]
 
     service.close()
 
-    return data, nextPageToken, prevPageToken
+    return videos, nextPageToken, prevPageToken

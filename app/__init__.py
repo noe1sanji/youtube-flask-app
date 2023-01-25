@@ -1,16 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
-from .search import youtube_search
-from dateutil import parser
+from .search import youtube_search, next_youtube_search
 from .video_list import get_most_popular_videos, get_next_popular_videos
 import humanize
 import arrow
-
-
-def get_db():
-    conn = sqlite3.connect("app/database.db")
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 LANG = "es_ES"
@@ -21,7 +14,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     videos, nextPageToken, prevPageToken = get_most_popular_videos()
-    # videos = []
 
     return render_template(
         "index.html",
@@ -43,54 +35,46 @@ def page(token):
     )
 
 
-@app.route("/results/<search>")
+@app.route("/results/<search>", methods=["GET"])
 def results(search):
-    with get_db() as conn:
-        results = conn.cursor().execute(
-            "select * from search where search_text=?", (search,)
-        )
+    videos, nextPageToken, prevPageToken = youtube_search(search)
 
-    return render_template("results.html", results=results)
+    return render_template(
+        "results.html",
+        videos=videos,
+        searchNextPageToken=nextPageToken,
+        searchPrevPageToken=prevPageToken,
+        searchText=search,
+    )
 
 
-@app.route("/api/results", methods=["POST"])
-def api_results():
+@app.route("/results", methods=["POST"])
+def form_search_results():
     search = request.form["search"]
-    results = youtube_search(search)
 
-    with get_db() as conn:
-        cur = conn.cursor()
-        query = """insert into search (
-            search_text,
-            published_at,
-            channel_id,
-            title,
-            description,
-            thumbnails_url,
-            channel_title,
-            video_id
-        ) values (?, ?, ?, ?, ?, ?, ?, ?)"""
-
-        for row in results:
-            cur.execute(
-                query,
-                (
-                    search,
-                    row["snippet"]["publishedAt"],
-                    row["snippet"]["channelId"],
-                    row["snippet"]["title"],
-                    row["snippet"]["description"],
-                    row["snippet"]["thumbnails"]["high"]["url"],
-                    row["snippet"]["channelTitle"],
-                    row["id"]["videoId"],
-                ),
-            )
-
-    return redirect(url_for("results", search=search))
+    return redirect(
+        url_for(
+            "results",
+            search=search,
+        )
+    )
 
 
-@app.template_filter("formatdatetime")
-def format_datetime(value, format="%d %b %Y"):
+@app.route("/results/<search>/<token>", methods=["POST"])
+def next_results(search, token):
+    videos, nextPageToken, prevPageToken = next_youtube_search(search, token)
+
+    return render_template(
+        "results.html",
+        videos=videos,
+        searchNextPageToken=nextPageToken,
+        searchPrevPageToken=prevPageToken,
+        searchText=search,
+    )
+
+
+@app.template_filter("formatDatetime")
+def format_datetime(value):
     if value is None:
         return ""
 

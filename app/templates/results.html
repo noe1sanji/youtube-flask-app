@@ -2,26 +2,49 @@
 
 {% block content %}
 <div class="container-results">
-    {% for result in results %}
-    <a href="https://www.youtube.com/watch?v={{ result['video_id'] }}" target="_blank">
+    {% for video in videos %}
+    <a href="https://www.youtube.com/watch?v={{ video['id']['videoId'] }}" target="_blank">
         <div class="card">
-            <div class="card-img"><img src="{{ result['thumbnails_url'] }}" alt=""></div>
-            <div class="card-title">{{ result["title"] | safe }}</div>
+            <div class="card-img"><img src="{{ video['snippet']['thumbnails']['high']['url'] }}" alt=""></div>
+            <div class="card-title">{{ video["snippet"]["title"] | safe }}</div>
             <div class="card-channel">
                 <span>
-                    {{ result["channel_title"] }}
+                    {{ video["snippet"]["channelTitle"] }}
                 </span>
                 <span> • </span>
                 <span>
-                    {{ result["published_at"] | formatdatetime }}
+                    {{ video["snippet"]["publishedAt"] | formatDatetime }}
                 </span>
             </div>
             <div class="card-description">
-                <p>{{ result["description"] }}</p>
+                <p>{{ video["snippet"]["description"] }}</p>
             </div>
         </div>
     </a>
     <br>
     {% endfor %}
+    <div class="pagination">
+        {% if searchPrevPageToken %}
+        <div class="prev-button">
+            <form action="{{ url_for('next_results', token=searchPrevPageToken, search=searchText) }}" method="post">
+                <input type="submit" value="Regresar">
+            </form>
+        </div>
+        {% endif %}
+        {% if searchNextPageToken %}
+        <div class="next-button">
+            <form action="{{ url_for('next_results', token=searchNextPageToken, search=searchText) }}" method="post">
+                <input type="submit" value="Siguiente">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <div class="go-up">
+        <a href="#navbar">
+            <button>
+                <i class="gg-arrow-up"></i>
+            </button>
+        </a>
+    </div>
 </div>
 {% endblock %}

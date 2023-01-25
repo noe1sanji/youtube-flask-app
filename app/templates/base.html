@@ -17,10 +17,8 @@
         </li>
         <li>
             <div class="search-form">
-                <form action="{{ url_for('api_results') }}" method="post">
+                <form action="{{ url_for('form_search_results') }}" method="post">
                     <input type="text" name="search" placeholder="Buscar" required>
-                    <!-- <button type="submit">Buscar</button> -->
-                    <!-- <input type="submit" value=""><i class="gg-search"></i></input> -->
                     <button type="submit"><i class="gg-search"></i></button>
                 </form>
             </div>
